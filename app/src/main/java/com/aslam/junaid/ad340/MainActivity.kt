@@ -13,10 +13,11 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.aslam.junaid.ad340.details.ForecastDetailsActivity
+import com.aslam.junaid.ad340.forecast.CurrentForecastFragment
+import com.aslam.junaid.ad340.location.LocationEntryFragment
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), AppNavigator {
 
-    private val forecastRepository = ForecastRepository()
     private lateinit var tempDisplaySettingManager: TempDisplaySettingManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,41 +26,13 @@ class MainActivity : AppCompatActivity() {
 
         tempDisplaySettingManager = TempDisplaySettingManager(this)
 
-        val zipcodeEditText: EditText = findViewById(R.id.zipcodeEditText)
-        val enterButton: Button = findViewById(R.id.enterButton)
 
-        enterButton.setOnClickListener {
-            val zipcode: String = zipcodeEditText.text.toString()
 
-            if (zipcode.length != 5) {
-                Toast.makeText(this, R.string.zipcode_entry_error, Toast.LENGTH_SHORT)
-                    .show()
-            } else {
-                forecastRepository.loadForecast(zipcode)
-            }
-        }
+        supportFragmentManager
+            .beginTransaction()
+            .add(R.id.fragmentContainer, LocationEntryFragment())
+            .commit()
 
-        val forecastList: RecyclerView = findViewById(R.id.forecastList)
-        forecastList.layoutManager = LinearLayoutManager(this)
-        val dailyForecastAdapter = DailyForecastListAdapter(tempDisplaySettingManager) { forecast ->
-            showForecastDetails(forecast)
-        }
-        forecastList.adapter = dailyForecastAdapter
-
-        val weeklyForecastObserver = Observer<List<DailyForecast>> {forecastItems ->
-            // update our list adapter
-            dailyForecastAdapter.submitList(forecastItems)
-        }
-        forecastRepository.weeklyForecast.observe(this, weeklyForecastObserver)
-    }
-
-    private fun showForecastDetails(forecast: DailyForecast) {
-        val forecastDetailsIntent = Intent(this,
-            ForecastDetailsActivity::class.java)
-
-        forecastDetailsIntent.putExtra("key_temp", forecast.temp)
-        forecastDetailsIntent.putExtra("key_description", forecast.description)
-        startActivity(forecastDetailsIntent)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -70,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle item selection
-        return when(item.itemId) {
+        return when (item.itemId) {
             R.id.tempDisplaySetting -> {
                 showTempDisplaySettingDialog(this, tempDisplaySettingManager)
                 true
@@ -78,4 +51,21 @@ class MainActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+    override fun navigateToCurrentForecast(zipcode: String) {
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragmentContainer, CurrentForecastFragment.newInstance(zipcode))
+            .commit()
+    }
+
+    override fun navigateToLocationEntry() {
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragmentContainer, LocationEntryFragment())
+            .commit()
+    }
+
+
+
 }
