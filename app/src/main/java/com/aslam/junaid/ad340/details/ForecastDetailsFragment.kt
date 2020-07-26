@@ -33,6 +33,7 @@ class ForecastDetailsFragment : Fragment() {
         _binding = FragmentForecastDetailsBinding.inflate(inflater, container, false)
         viewModelFactory = ForecastDetailsViewModelFactory(args)
         tempDisplaySettingManager = TempDisplaySettingManager(requireContext())
+
         return binding.root
     }
 
