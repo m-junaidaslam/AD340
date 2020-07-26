@@ -20,12 +20,18 @@ import com.aslam.junaid.ad340.details.ForecastDetailsFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_current_forecast.*
 import org.w3c.dom.Text
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * A simple [Fragment] subclass.
  * Use the [CurrentForecastFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+
+
+private val DATE_FORMAT = SimpleDateFormat("MM-dd-yyyy")
+
 class CurrentForecastFragment : Fragment() {
     private val forecastRepository = ForecastRepository()
     private lateinit var locationRepository: LocationRepository
@@ -43,6 +49,7 @@ class CurrentForecastFragment : Fragment() {
         val locationName = view.findViewById<TextView>(R.id.locationName)
         val tempText = view.findViewById<TextView>(R.id.tempText)
         val descriptionText = view.findViewById<TextView>(R.id.currentDescriptionText)
+        val dateText = view.findViewById<TextView>(R.id.dateText)
 
         val zipcode = arguments?.getString(KEY_ZIPCODE) ?: ""
 
@@ -54,7 +61,9 @@ class CurrentForecastFragment : Fragment() {
             tempText.text = formatTempForDisplay(weather.forecast.temp,
                 tempDisplaySettingManager.getTempDisplaySetting())
 
-            currentDescriptionText.text = weather.weather[0].description
+            descriptionText.text = weather.weather[0].description
+
+            dateText.text = DATE_FORMAT.format(Date(weather.date * 1000))
 
             val iconId = weather.weather[0].icon
             forecastIcon.load("http://openweathermap.org/img/wn/${iconId}@2x.png")

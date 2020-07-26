@@ -44,10 +44,9 @@
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:src="@drawable/ic_baseline_wb_cloudy_24"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/locationName" />
 
     <TextView
         android:id="@+id/currentDescriptionText"
@@ -57,5 +56,13 @@
         app:layout_constraintStart_toStartOf="@+id/tempText"
         app:layout_constraintTop_toBottomOf="@+id/tempText"
         tools:text="Partly Cloudy" />
+
+    <TextView
+        android:id="@+id/dateText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/currentForecastIcon"
+        app:layout_constraintTop_toBottomOf="@+id/currentDescriptionText"
+        tools:text="16-04-2020" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
