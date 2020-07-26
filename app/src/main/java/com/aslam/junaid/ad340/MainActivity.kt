@@ -6,9 +6,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
-import com.aslam.junaid.ad340.forecast.CurrentForecastFragmentDirections
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -22,9 +20,10 @@ class MainActivity : AppCompatActivity() {
         tempDisplaySettingManager = TempDisplaySettingManager(this)
 
         val navController = findNavController(R.id.nav_host_fragment)
-//        val appBarConfiguration = AppBarConfiguration(navController.graph)
-        findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
-            .setTitle(R.string.app_name)
+        val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
+        toolbar.setTitle(R.string.app_name)
+        setSupportActionBar(toolbar)
+
         findViewById<BottomNavigationView>(R.id.bottomNavigationView)
             .setupWithNavController(navController)
 
