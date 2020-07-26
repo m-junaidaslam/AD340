@@ -1,6 +1,5 @@
 package com.aslam.junaid.ad340.location
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,13 +8,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import com.aslam.junaid.ad340.AppNavigator
+import androidx.navigation.fragment.findNavController
 import com.aslam.junaid.ad340.R
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
@@ -23,13 +18,6 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class LocationEntryFragment : Fragment() {
-
-    private lateinit var appNavigator: AppNavigator
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        appNavigator = context as AppNavigator
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,13 +37,9 @@ class LocationEntryFragment : Fragment() {
                 Toast.makeText(requireContext(), R.string.zipcode_entry_error, Toast.LENGTH_SHORT)
                     .show()
             } else {
-                appNavigator.navigateToCurrentForecast(zipcode)
+                findNavController().navigateUp()
             }
         }
-
         return view
-
     }
-
-
 }

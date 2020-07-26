@@ -1,7 +1,5 @@
 package com.aslam.junaid.ad340.forecast
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,7 +10,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.aslam.junaid.ad340.*
-import com.aslam.junaid.ad340.details.ForecastDetailsFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 /**
@@ -20,7 +17,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
  * Use the [CurrentForecastFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class CurrentForecastFragment : Fragment() {
+class WeeklyForecastFragment : Fragment() {
     private lateinit var tempDisplaySettingManager: TempDisplaySettingManager
     private val forecastRepository = ForecastRepository()
 
@@ -29,14 +26,14 @@ class CurrentForecastFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view =  inflater.inflate(R.layout.fragment_current_forecast,
+        val view =  inflater.inflate(R.layout.fragment_weekly_forecast,
             container, false)
 
         val zipcode = arguments?.getString(KEY_ZIPCODE) ?: ""
 
         tempDisplaySettingManager = TempDisplaySettingManager(requireContext())
 
-        val dailyForecastList: RecyclerView = view.findViewById(R.id.dailyForecastList)
+        val dailyForecastList: RecyclerView = view.findViewById(R.id.weeklyForecastList)
         dailyForecastList.layoutManager = LinearLayoutManager(requireContext())
         val dailyForecastAdapter = DailyForecastListAdapter(tempDisplaySettingManager) {
             showForecastDetails(it)
@@ -61,15 +58,15 @@ class CurrentForecastFragment : Fragment() {
     }
 
     private fun showLocationEntry() {
-        val action = CurrentForecastFragmentDirections
-            .actionCurrentForecastFragmentToLocationEntryFragment()
+        val action = WeeklyForecastFragmentDirections
+            .actionWeeklyForecastFragmentToLocationEntryFragment()
         findNavController().navigate(action)
     }
 
     private fun showForecastDetails(forecast: DailyForecast) {
-        val action = CurrentForecastFragmentDirections
-            .actionCurrentForecastFragmentToForecastDetailsFragment(forecast.temp,
-                forecast.description)
+        val action = WeeklyForecastFragmentDirections
+            .actionWeeklyForecastFragmentToForecastDetailsFragment(forecast.temp,
+            forecast.description)
         findNavController().navigate(action)
     }
 
